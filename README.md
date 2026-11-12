@@ -54,7 +54,9 @@ any MCP server for you: see `docs/STUDIO-MCP.md` for what to connect and how to 
 | `docs/STUDIO-MCP.md` | the two Studio MCP servers, default routing, a security vetting record, pinned source install |
 | `docs/REVERSE-ENGINEERING.md` | REA: vetting, status, what it is (and is not) for |
 | `docs/STATIC-ANALYSIS.md` | selene / luau-lsp / StyLua pitfalls, triage reality, the baseline regression gate |
+| `docs/TESTING.md` | Wally + Jest + Rojo unit testing driven by MCP: pattern, facts, gotchas |
 | `templates/validate.py` | drop-in static-analysis gate for a synced `src/` tree |
+| `templates/testing/` | `test.py` one-command runner, `TestRunner.luau`, `RunOnPlay.server.luau`, `jest.config.luau` |
 | `scripts/bench_mcp.py` | raw-stdio latency benchmark for Studio MCP servers |
 | `forge.py` | JSON-only CLI: `doctor`, `blender run/batch`, `selftest`, `luau bundle` |
 | `blender/forge_runner.py` | runs inside Blender; turns any script outcome into one structured JSON result |
