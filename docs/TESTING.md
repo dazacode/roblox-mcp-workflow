@@ -1,7 +1,8 @@
 # Unit testing a Roblox codebase with Wally + Jest + Rojo, driven by MCP
 
-Verified on a real project (271 scripts): **57 tests pass in ~0.2 s**, run from one command, and a mutation check
-confirmed the suite catches injected bugs. `templates/testing/` has the reusable files.
+Verified on a real project (271 scripts): **123 tests pass in ~0.3 s** (URL router, A* road graph, geometry, math,
+library smoke tests), run from one command, with mutation checks confirming the suite catches injected bugs.
+It found two real bugs (below). `templates/testing/` has the reusable files.
 
 ## Shape
 ```
@@ -36,6 +37,14 @@ Studio open with its MCP server enabled; there is no headless Jest runner for Ro
 - A found-but-unfixed bug becomes `it.skip("KNOWN BUG: ...")` plus a passing test for what *does* hold, so the
   baseline stays green and the bug stays visible. Don't silently loosen the assertion.
 - Prove the suite has teeth: mutate the code under test (off-by-one, wrong constant), expect failures, revert.
+  This is not a formality: on the second round one injected bug (tab-index bookkeeping in a browser router)
+  **survived** because `math.clamp` masked the wrong index in the scenario I had written. Mutation testing found a
+  hole in the *tests*; the fix was a case (active tab in the middle) where clamping cannot rescue it.
+- Probe robustness on a hunch: asserting "does not throw on nil input" found a second real bug (a guard applied to
+  one field but not the next). Cheap, and worth a test per public entry point.
+- Select targets by purity: scan for modules with no `GetService`/`Instance.new`/`game.`/`task.*` usage and real
+  logic (routing, pathfinding, geometry). Hand-build a tiny fixture whose right answer you can compute on paper
+  (e.g. a square road network with a one-way diagonal: forward trip = 282.84, reverse trip must be 400).
 
 ## Gotchas
 - **Studio can't run two windows while it needs to self-update.** If a launch seems to hang, the Studio installer is
