@@ -10,8 +10,11 @@ instance and payloads are used. Nothing here involves a model: it measures serve
 Safe: only READ-ONLY Luau is executed (`return 1`, a 20 KB string, a property read). Requires Studio to be in
 Edit mode with no modal dialog open (an open dialog makes every call fail: "Target is not reachable").
 
-Caveat for rbx-studio: if another rbx-studio server already owns the bridge port (e.g. your MCP client), this
-instance runs as a *peer* and proxies through it - one extra loopback hop, so its numbers are slightly pessimistic.
+rbx-studio caveat (measured, not assumed): if another rbx-studio server already owns the bridge port (e.g. your
+MCP client launched one), a second instance runs as a *peer* on a deliberately summarised, much slower path
+(~38 s per call observed). Those numbers say nothing about the server, so this script REFUSES to benchmark
+rbx-studio while the port is owned. To measure it, stop the client's instance (or run with that MCP server
+disabled) so the benchmark process becomes the bridge owner.
 """
 import argparse
 import json
@@ -115,6 +118,14 @@ def main():
     report = {"calls_per_scenario": a.calls, "servers": {}}
     for s in a.servers.split(","):
         if s == "rbx-studio":
+            import socket
+            with socket.socket() as probe_sock:
+                probe_sock.settimeout(0.5)
+                if probe_sock.connect_ex(("127.0.0.1", 44755)) == 0:
+                    report["servers"][s] = {"skipped": "bridge port 44755 is owned by another process; a peer instance "
+                                                        "uses a degraded path and would give meaningless numbers. Stop "
+                                                        "that server first."}
+                    continue
             c = Client([a.rbx_exe], s)
             c.handshake()
             time.sleep(2)  # let the peer/bridge settle

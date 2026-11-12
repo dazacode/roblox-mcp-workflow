@@ -23,10 +23,13 @@ screenshots/viewport/device, `execute_luau` (including loading `shared.Forge`).
 without storing a secret) and a plaintext long-lived key that can publish, ban players and sell products is
 the largest piece of risk the community server adds.
 
-> The latency claim (13.6 ms vs 25.8 ms per call in the project's README) is the maintainer's and was **not**
-> independently measured here. To measure: run 50 sequential `execute_luau` calls of `return 1` through each
-> server and compare medians. "Faster" matters less than correctness for a workflow whose bottleneck is the
-> model, so treat it as a tiebreaker, not a reason to use a tool for something it doesn't do.
+> **Latency (measured 2026-11-12, `scripts/bench_mcp.py`, raw stdio, 40 calls x 3 read-only scenarios):** the built-in
+> server takes **~51 ms median** per `execute_luau` (min 15 ms, p95 ~65 ms), independent of payload size (20 KB
+> returns are the same). `rbx-studio` could **not** be measured fairly: only one process can own its bridge, and a
+> second instance runs as a peer on a deliberately summarised path (~38 s per call observed). The project's
+> "13.6 ms vs 25.8 ms" claim compares its push transport with *polling* transports, not with the built-in server,
+> so it doesn't answer "which is faster". Practical view: both are far below model latency, so choose by
+> features, not milliseconds. To measure `rbx-studio` yourself, run the script with that MCP server stopped.
 
 ## Vetting record (2026-11-11)
 
