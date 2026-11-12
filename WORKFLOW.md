@@ -89,6 +89,8 @@ Hard rules (each one earned by a real failure while building this kit):
 2. Apply the `fix` fields in one `execute_luau`, end with
    `ChangeHistoryService:SetWaypoint("<what>")` so the user can undo in one step.
 3. `Probe.scan{root=...}` again: UNANCHORED / FLOATING / DEFAULT_GREY_MESH must be gone.
+   (If something *looks* wrong, first reproduce it in a **fresh Studio session**: a stale session can render pale/wrong
+   and send you chasing content that is fine. See `docs/STUDIO-MCP.md`.)
 4. `Probe.shots(root)` -> `screen_capture` -> confirm the asymmetric feature (e.g. torii plaque)
    is on the side the manifest says. Orientation is **not** auto-verified; this is the check.
 

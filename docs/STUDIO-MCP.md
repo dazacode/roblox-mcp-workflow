@@ -47,6 +47,12 @@ the largest piece of risk the community server adds.
 - **Relaunching a cloud place from the shell works** (verified): `Start-Process "roblox-studio:1+launchmode:edit+task:EditPlace+placeId:<placeId>+universeId:<universeId>"`.
   Studio may run its self-updater first (a minute or two); then wait for a window titled with the place name and for
   `list_roblox_studios` to show it. Check `Process.Responding` rather than assuming a slow start is a hang.
+- **A long-running Studio session can render wrongly, and you will blame the wrong thing.** We spent hours attributing
+  "washed-out, pale facades" to materials, lighting, textures and an orphaned effects pack, with plausible-looking
+  evidence and lever tests. After a fresh Studio start **the identical scene, with identical settings, looked correct in
+  both Edit and Play**; the earlier sessions (running at 2.8-3.8 GB) had a degraded rendering/texture state. Rule: reproduce
+  any visual problem in a **fresh Studio session before investigating content**, and if it recurs capture Studio's memory
+  and `Stats:GetMemoryUsageMbForTag(Enum.DeveloperMemoryTag.GraphicsTexture)` *before* restarting.
 - **Don't mass-edit the play session.** Tinting ~86k parts in a playtest and then stopping and restarting left Studio
   "Not Responding" for 5+ min (one core pinned, ~2.5 GB) until it was force-quit. Nothing was lost (play edits are never
   saved), but keep bulk play-only changes small (one region), and stop/start playtests with a pause between them.
