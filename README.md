@@ -25,7 +25,8 @@ they lack:
 
 ## Quick start
 
-Requirements: Python 3.9+, Blender 4.x (for the asset pipeline), Roblox Studio with an MCP server (see below).
+Requirements: Python 3.9+ (tested on 3.13), Blender 4.x (tested on 4.1; for the asset pipeline), Roblox Studio with
+an MCP server (see `docs/STUDIO-MCP.md`).
 
 ```bash
 python forge.py doctor                       # Blender + toolchain discovery

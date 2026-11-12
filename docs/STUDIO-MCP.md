@@ -48,6 +48,11 @@ Findings:
   is no npm provenance attestation and the repo's `prepublishOnly` script suggests local publishing, so that
   binary cannot be tied to the source. **Mitigation used here: build from the reviewed commit with
   `cargo build --release --locked`** (dependency versions/checksums pinned by `Cargo.lock`).
+- Build verification (Windows x64, Rust nightly 1.101 since the pinned 1.99.1 wasn't installed): `cargo build
+  --release --locked` succeeded in 4m12s -> 14.3 MB binary. An independent stdio MCP handshake (not through any
+  client) initialised as `roblox-studio-mcp` v1.2.2 and listed exactly the 35 advertised tools with empty stderr.
+  **Not yet verified:** the Studio-side connection (needs the user to accept the `127.0.0.1` prompt) and any
+  latency comparison.
 - Residual risk: the plugin executes arbitrary Luau in Studio by design (that is the feature). Only connect it
   to places you are willing to let an agent modify, and review `allow` groups in the panel.
 
