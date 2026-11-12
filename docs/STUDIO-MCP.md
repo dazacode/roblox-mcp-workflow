@@ -31,6 +31,17 @@ the largest piece of risk the community server adds.
 > so it doesn't answer "which is faster". Practical view: both are far below model latency, so choose by
 > features, not milliseconds. To measure `rbx-studio` yourself, run the script with that MCP server stopped.
 
+## Operational notes (learned the hard way)
+- **Long yielding Luau can wedge `rbx-studio`'s channel.** A web-lookup loop (58 `GetProductInfoAsync` calls) and a
+  batch of `PreloadAsync` calls sent via `execute_luau` timed out at 60 s, and every later request (even
+  `studio_status`) queued behind it for minutes while Studio was healthy. Pattern that works: start the work with
+  `task.spawn`, write results into `shared`, return immediately, then read `shared` back. **`shared` is common to both
+  servers**, so if one channel is stuck, read the results through the other.
+- Studio reporting `unreachable: true` in `list_studios` just means it is busy, not gone.
+- Chunk big walks (`task.wait()` every ~40k instances); a full read-only pass over ~413k instances took ~5.6 s.
+- A log warning is not a defect. "Failed to load" lines were all `AssetFetchStatus.Success` on a direct fetch; verify
+  with a direct fetch (and in a Play-mode client) before calling anything broken.
+
 ## Vetting record (2026-11-11)
 
 Reviewed commit `fcf174ef789beef9b4d4de5891be17d9d82683ee` (v1.2.2, 2026-11-09, MIT, one maintainer, ~15 stars,
