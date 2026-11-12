@@ -1,0 +1,8 @@
+# generated / local-only
+out/
+dist/
+__pycache__/
+*.pyc
+*.blend1
+.forge/
+.DS_Store

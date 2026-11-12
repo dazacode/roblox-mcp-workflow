@@ -1,0 +1,12 @@
+{
+  "name": "roblox-mcp-workflow",
+  "version": "0.1.0",
+  "description": "An AI-first Roblox build and debug workflow: headless Blender asset pipeline with Roblox validation and manifests, structured Studio diagnostics (Probe/Log/Check), and skills that route work across Roblox's built-in MCP and community MCP servers.",
+  "author": {
+    "name": "dazacode"
+  },
+  "homepage": "https://github.com/dazacode/roblox-mcp-workflow",
+  "repository": "https://github.com/dazacode/roblox-mcp-workflow",
+  "license": "MIT",
+  "keywords": ["roblox", "luau", "roblox-studio", "mcp", "blender", "workflow", "game-development"]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "roblox-mcp-workflow",
+  "id": "roblox-mcp-workflow",
+  "owner": {
+    "name": "dazacode"
+  },
+  "metadata": {
+    "description": "Roblox MCP workflow: Blender pipeline, Studio diagnostics, and agent skills",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "roblox-mcp-workflow",
+      "source": "./",
+      "description": "Headless Blender -> Roblox asset pipeline with validation and manifests, structured Studio diagnostics, and skills that route work across Studio MCP servers.",
+      "version": "0.1.0",
+      "author": {
+        "name": "dazacode"
+      },
+      "keywords": ["roblox", "luau", "mcp", "blender", "workflow"],
+      "category": "development",
+      "strict": false
+    }
+  ]
+}
