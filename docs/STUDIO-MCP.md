@@ -38,6 +38,14 @@ the largest piece of risk the community server adds.
   `task.spawn`, write results into `shared`, return immediately, then read `shared` back. **`shared` is common to both
   servers**, so if one channel is stuck, read the results through the other.
 - Studio reporting `unreachable: true` in `list_studios` just means it is busy, not gone.
+- **A minimized Studio does not render.** Captures come back dark/empty (built-in `screen_capture`, rbx-studio
+  `screenshot`, a window grab) and commands that need a frame can time out. Check `IsIconic` on the main window and keep
+  it restored for visual work. Studio owns many top-level windows (most hidden/tiny); pick the largest visible one.
+- **The built-in `screen_capture` only works in Edit mode** (it returns just the core UI layer during Play). For a
+  Play-mode picture use rbx-studio's `screenshot` (needs a responsive channel) or `scripts/grab_studio_window.ps1`, which
+  uses `PrintWindow` and so works even when other windows cover Studio (not when it is minimized).
+- **Studio gets a new studio ID whenever it restarts or the window is recreated** (also across Edit/Play). Re-run
+  `list_roblox_studios` after any restart before reusing an ID.
 - Chunk big walks (`task.wait()` every ~40k instances); a full read-only pass over ~413k instances took ~5.6 s.
 - A log warning is not a defect. "Failed to load" lines were all `AssetFetchStatus.Success` on a direct fetch; verify
   with a direct fetch (and in a Play-mode client) before calling anything broken.
