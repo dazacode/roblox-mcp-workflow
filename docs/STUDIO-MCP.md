@@ -44,6 +44,12 @@ the largest piece of risk the community server adds.
 - **The built-in `screen_capture` only works in Edit mode** (it returns just the core UI layer during Play). For a
   Play-mode picture use rbx-studio's `screenshot` (needs a responsive channel) or `scripts/grab_studio_window.ps1`, which
   uses `PrintWindow` and so works even when other windows cover Studio (not when it is minimized).
+- **Relaunching a cloud place from the shell works** (verified): `Start-Process "roblox-studio:1+launchmode:edit+task:EditPlace+placeId:<placeId>+universeId:<universeId>"`.
+  Studio may run its self-updater first (a minute or two); then wait for a window titled with the place name and for
+  `list_roblox_studios` to show it. Check `Process.Responding` rather than assuming a slow start is a hang.
+- **Don't mass-edit the play session.** Tinting ~86k parts in a playtest and then stopping and restarting left Studio
+  "Not Responding" for 5+ min (one core pinned, ~2.5 GB) until it was force-quit. Nothing was lost (play edits are never
+  saved), but keep bulk play-only changes small (one region), and stop/start playtests with a pause between them.
 - **Studio gets a new studio ID whenever it restarts or the window is recreated** (also across Edit/Play). Re-run
   `list_roblox_studios` after any restart before reusing an ID.
 - Chunk big walks (`task.wait()` every ~40k instances); a full read-only pass over ~413k instances took ~5.6 s.
