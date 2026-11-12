@@ -52,6 +52,9 @@ Two Studio MCP servers are expected (details, vetting and install: `docs/STUDIO-
 | Perf | skills `rbx-perf-profiling`, `rbx-scene-analysis`, `rbx-luau-heap-profiling` | |
 | Cloud (assets, passes, universe) | `open_cloud_invoke` after skills `rbx-open-cloud-usage` + `rbx-permissions` | |
 | Docs | `http_get` via skill `rbx-docs-search` | don't answer API questions from memory |
+| Static check of `src/` | `python scripts/validate.py` (selene + luau-lsp + baseline gate) | `docs/STATIC-ANALYSIS.md`; gate on regression, sample before calling anything a bug |
+| Audit a third-party tool/plugin/binary you run | REA (`mcp__rea__*`) | `docs/REVERSE-ENGINEERING.md`: scope, status, limits. **Never** aimed at Roblox Studio/client/engine |
+| Hard gameplay bug | `Log.digest` (Server+Client) -> `rbx-debug` breakpoints -> profilers | reverse engineering the engine does not find game-logic bugs |
 
 ## Blender -> Roblox pipeline
 
